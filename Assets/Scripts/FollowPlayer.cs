@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public GameObject player;
-    [SerializeField] Vector3 offsetThird = new Vector3(0, 5, -7);
-    [SerializeField] Vector3 offsetFirst = new Vector3(0, 2.5f, 0.8f);
-    [SerializeField] Vector3 offsetView;
+    [SerializeField] GameObject player;
+    private Vector3 offsetThird = new Vector3(0, 5, -7);
+    private Vector3 offsetFirst = new Vector3(0, 2.5f, 0.8f);
+    private Vector3 offsetView;
 
     // Start is called before the first frame update
     void Start()

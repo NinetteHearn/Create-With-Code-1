@@ -4,34 +4,41 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameObject centerOfMass;
-
-    [SerializeField] float horsePower = 20.0f;
+    [SerializeField] float speed = 20.0f;
     [SerializeField] float turnSpeed = 45.0f;
     private float horizontalInput;
     private float forwardInput;
-    private Rigidbody playerRB;
+
+    private GameManager gameManagerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerRB = GetComponent<Rigidbody>();
-
-        playerRB.centerOfMass = centerOfMass.transform.position;
+        gameManagerScript = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
+        if (gameManagerScript.isGameActive)
+        {
+            horizontalInput = Input.GetAxis($"Horizontal");
+            forwardInput = Input.GetAxis($"Vertical");
 
-        // Here we move the vehicle forward
-        //transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
-        playerRB.AddRelativeForce(Vector3.forward * forwardInput * horsePower);
-        
-        //Here we turn the vehicle
-        transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
-       
+            // Here we move the vehicle forward
+            transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
+            //Here we turn the vehicle
+            transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+
+
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            gameManagerScript.GameOver();
+        }
     }
 }
